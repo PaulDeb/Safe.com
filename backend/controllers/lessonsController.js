@@ -1,18 +1,39 @@
 const Lessons = require('../models/lessonsModel');
 
-// get all lessons
 const getLessons = async (req, res) => {
+/*
+    #swagger.tags=['Lesson']
+    #swagger.description= "Get list of all lessons"
+    #swagger.responses[200] = {
+        schema: [{ $ref: '#/definitions/lesson' }]
+    }
+    #swagger.responses[500] = {
+        schema: { error: "message error" }
+    }
+*/
     try {
         const lessons = await Lessons.find({ deletedAt: null });
 
         res.status(200).json(lessons);
     } catch (err) {
-        return res.status(400).json({ error : err.message });
+        return res.status(500).json({ error : err.message });
     }
 }
 
-// get lessons by id
 const getLesson = async (req, res) => {
+/*
+    #swagger.tags=['Lesson']
+    #swagger.description= "Get lesson by id",
+    #swagger.responses[200] = {
+        schema: { $ref: '#/definitions/lesson' }
+    }
+    #swagger.responses[404] = {
+        schema: { error: "Lesson not found" }
+    }
+    #swagger.responses[500] = {
+        schema: { error: "message error" }
+    }
+*/
     const { id } = req.params;
 
     try {
@@ -23,25 +44,49 @@ const getLesson = async (req, res) => {
         }
         res.status(200).json(lesson);
     } catch (err) {
-        res.status(400).json({ error : err.message });
+        res.status(500).json({ error : err.message });
     }
 }
 
-// create new lesson
 const createLesson = async (req, res) => {
+/*
+    #swagger.tags=['Lesson']
+    #swagger.description= "Create a lesson"
+    #swagger.parameters['body'] = {
+        in: 'body',
+        description: '',
+        required: true,
+        schema: { $ref: '#/definitions/newLesson' }
+    }
+    #swagger.responses[201] = {
+        schema: { $ref: '#/definitions/lesson' }
+    }
+    #swagger.responses[500] = {
+        schema: { error: "message error" }
+    }
+*/
     const { expert, title, data } = req.body;
 
     try {
         const lesson = await Lessons.create({ expert, title, data });
         res.status(201).json(lesson);
     } catch (err) {
-        res.status(400).json({ error: err.message });
+        res.status(500).json({ error: err.message });
     }
 
 }
 
-// delete a rate
 const deleteLesson = async (req, res) => {
+/*
+    #swagger.tags=['Lesson']
+    #swagger.description= "Delete a lesson by id"
+    #swagger.responses[200] = {
+        schema: { message: "Lesson deleted !" }
+    }
+    #swagger.responses[500] = {
+        schema: { error: "message error" }
+    }
+*/
     const { id } = req.params;
     try {
         const lesson = await Lessons.findOneAndUpdate(
@@ -50,12 +95,27 @@ const deleteLesson = async (req, res) => {
         );
         res.status(200).json({ message: "Lesson deleted !" });
     } catch (err) {
-        res.status(400).json({ error : err.message });
+        res.status(500).json({ error : err.message });
     }
 }
 
-// update a lesson
 const updateLesson = async (req, res) => {
+/*
+    #swagger.tags=['Lesson']
+    #swagger.description= "Update a lesson by id"
+    #swagger.parameters['body'] = {
+        in: 'body',
+        description: '',
+        required: true,
+        schema: { $ref: '#/definitions/updateLesson' }
+    }
+    #swagger.responses[200] = {
+        schema: { $ref: '#/definitions/lesson' }
+    }
+    #swagger.responses[500] = {
+        schema: { error: "message error" }
+    }
+*/
     const { id } = req.params;
     const { expert, title, data } = req.body;
 
@@ -70,7 +130,7 @@ const updateLesson = async (req, res) => {
 
         res.status(200).json(lesson);
     } catch (err) {
-        res.status(400).json({ error : err.message });
+        res.status(500).json({ error : err.message });
     }
 }
 

@@ -1,18 +1,40 @@
 const Rates = require('../models/ratesModel');
 
-// get all rates
 const getRates = async (req, res) => {
+/*
+    #swagger.tags=['Rating']
+    #swagger.description= "Get list of all rates"
+    #swagger.responses[200] = {
+        schema: [{ $ref: '#/definitions/rate' }]
+    }
+    #swagger.responses[500] = {
+        schema: { error: "message error" }
+    }
+*/
+
     try {
         const rates = await Rates.find({ deletedAt: null });
 
         res.status(200).json(rates);
     } catch (err) {
-        return res.status(400).json({ error : err.message });
+        return res.status(500).json({ error : err.message });
     }
 }
 
-// get rate by id
 const getRate = async (req, res) => {
+/*
+    #swagger.tags=['Rating']
+    #swagger.description= "Get rate by id"
+    #swagger.responses[200] = {
+        schema: { $ref: '#/definitions/rate' }
+    }
+    #swagger.responses[404] = {
+        schema: { error: "Rate not found" }
+    }
+    #swagger.responses[500] = {
+        schema: { error: "message error" }
+    }
+*/
     const { id } = req.params;
 
     try {
@@ -23,25 +45,50 @@ const getRate = async (req, res) => {
         }
         res.status(200).json(rate);
     } catch (err) {
-        res.status(400).json({ error : err.message });
+        res.status(500).json({ error : err.message });
     }
 }
 
-// create new rate
 const createRate = async (req, res) => {
+/*
+    #swagger.tags=['Rating']
+    #swagger.description= "Create rate"
+    #swagger.parameters['body'] = {
+        in: 'body',
+        description: '',
+        required: true,
+        schema: { $ref: '#/definitions/newRate' }
+    }
+    #swagger.responses[201] = {
+        schema: { $ref: '#/definitions/rate' }
+    }
+    #swagger.responses[500] = {
+        schema: { error: "message error" }
+    }
+*/
+
     const { text, rate, creator } = req.body;
 
     try {
         const newRate = await Rates.create({ text, rate, creator });
         res.status(201).json(newRate);
     } catch (err) {
-        res.status(400).json({ error: err.message });
+        res.status(500).json({ error: err.message });
     }
 
 }
 
-// delete a rate
 const deleteRate = async (req, res) => {
+/*
+    #swagger.tags=['Rating']
+    #swagger.description= "Delete rate by id"
+    #swagger.responses[200] = {
+        schema: { message: "Rate deleted !" }
+    }
+    #swagger.responses[500] = {
+        schema: { error: "message error" }
+    }
+*/
     const { id } = req.params;
     try {
         const rate = await Rates.findOneAndUpdate(

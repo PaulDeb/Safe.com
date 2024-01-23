@@ -1,18 +1,40 @@
 const Modules = require('../models/modulesModel');
 
-// get all modules
 const getModules = async (req, res) => {
+/*
+    #swagger.tags=['Module']
+    #swagger.description= "Get the list of the modules"
+    #swagger.responses[200] = {
+        schema: [{ $ref: '#/definitions/module' }]
+    }
+    #swagger.responses[500] = {
+        schema: { error: "message error" }
+    }
+*/
     try {
         const modules = await Modules.find({ deletedAt: null });
 
         res.status(200).json(modules);
     } catch (err) {
-        return res.status(400).json({ error : err.message });
+        return res.status(500).json({ error : err.message });
     }
 }
 
-// get module by id
 const getModule = async (req, res) => {
+/*
+    #swagger.tags=['Module']
+    #swagger.description= "Get module by id"
+    #swagger.responses[200] = {
+        schema: { $ref: '#/definitions/module' }
+    }
+    #swagger.responses[404] = {
+        schema: { error: "Module not found" }
+    }
+    #swagger.responses[500] = {
+        schema: { error: "message error" }
+    }
+*/
+
     const { id } = req.params;
 
     try {
@@ -23,25 +45,51 @@ const getModule = async (req, res) => {
         }
         res.status(200).json(module);
     } catch (err) {
-        res.status(400).json({ error : err.message });
+        res.status(500).json({ error : err.message });
     }
 }
 
-// create new module
 const createModule = async (req, res) => {
+/*
+    #swagger.tags=['Module']
+    #swagger.description= "Create new module"
+    #swagger.parameters['body'] = {
+        in: 'body',
+        description: '',
+        required: true,
+        schema: { $ref: '#/definitions/newModule' }
+    }
+    #swagger.responses[201] = {
+        schema: { $ref: '#/definitions/module' }
+    }
+    #swagger.responses[500] = {
+        schema: { error: "message error" }
+    }
+*/
+
     const { name, expert, difficulty } = req.body;
 
     try {
         const module = await Modules.create({ name, expert, difficulty });
         res.status(201).json(module);
     } catch (err) {
-        res.status(400).json({ error: err.message });
+        res.status(500).json({ error: err.message });
     }
 
 }
 
-// delete a module
 const deleteModule = async (req, res) => {
+    /*
+    #swagger.tags=['Module']
+    #swagger.description= "Delete a module by id"
+    #swagger.responses[200] = {
+        schema: { message: "Module deleted !" }
+    }
+    #swagger.responses[500] = {
+        schema: { error: "message error" }
+    }
+*/
+
     const { id } = req.params;
     try {
         const module = await Modules.findOneAndUpdate(
@@ -50,12 +98,27 @@ const deleteModule = async (req, res) => {
         );
         res.status(200).json({ message: "Module deleted !" });
     } catch (err) {
-        res.status(400).json({ error : err.message });
+        res.status(500).json({ error : err.message });
     }
 }
 
-// update a module
 const updateModule = async (req, res) => {
+/*
+    #swagger.tags=['Module']
+    #swagger.description= "Update a module by id"
+    #swagger.parameters['body'] = {
+        in: 'body',
+        description: '',
+        required: true,
+        schema: { $ref: '#/definitions/updateModule' }
+    }
+    #swagger.responses[200] = {
+        schema: { $ref: '#/definitions/module' }
+    }
+    #swagger.responses[500] = {
+        schema: { error: "message error" }
+    }
+*/
     const { id } = req.params;
     const { name, expert, difficulty } = req.body;
 
@@ -68,12 +131,30 @@ const updateModule = async (req, res) => {
 
         res.status(200).json(module);
     } catch (err) {
-        res.status(400).json({ error : err.message });
+        res.status(500).json({ error : err.message });
     }
 }
 
-// add lesson to module
 const addLessonToModule = async (req, res) => {
+/*
+    #swagger.tags=['Module']
+    #swagger.description= "Add a lesson to a module by id"
+    #swagger.parameters['body'] = {
+        in: 'body',
+        description: '',
+        required: true,
+        schema: { $lessonId: "lessonId" }
+    }
+    #swagger.responses[200] = {
+        schema: { message: "Module updated !" }
+    }
+    #swagger.responses[400] = {
+        schema: { error: "lessonId need to have a value" }
+    }
+    #swagger.responses[500] = {
+        schema: { error: "message error" }
+    }
+*/
     const { id } = req.params;
     const { lessonId } = req.body;
 
@@ -89,12 +170,31 @@ const addLessonToModule = async (req, res) => {
 
         res.status(200).json({ message: "Module updated !" });
     } catch (err) {
-        res.status(400).json({ error : err.message });
+        res.status(500).json({ error : err.message });
     }
 }
 
-// remove lesson to module
 const removeLessonToModule = async (req, res) => {
+/*
+    #swagger.tags=['Module']
+    #swagger.description= "Remove a lesson from a module by id"
+    #swagger.parameters['body'] = {
+        in: 'body',
+        description: '',
+        required: true,
+        schema: { $lessonId: "lessonId" }
+    }
+    #swagger.responses[200] = {
+        schema: { message: "Module updated !" }
+    }
+    #swagger.responses[400] = {
+        schema: { error: "lessonId need to have a value" }
+    }
+    #swagger.responses[500] = {
+        schema: { error: "message error" }
+    }
+*/
+
     const { id } = req.params;
     const { lessonId } = req.body;
 
@@ -110,12 +210,31 @@ const removeLessonToModule = async (req, res) => {
 
         res.status(200).json({ message: "Module updated !" });
     } catch (err) {
-        res.status(400).json({ error : err.message });
+        res.status(500).json({ error : err.message });
     }
 }
 
-// add rate to module
 const addRateToModule = async (req, res) => {
+/*
+    #swagger.tags=['Module']
+    #swagger.description= "Add a rate to a module by id"
+    #swagger.parameters['body'] = {
+        in: 'body',
+        description: '',
+        required: true,
+        schema: { $rateId: "rateId" }   
+    }
+    #swagger.responses[200] = {
+        schema: { message: "Module updated !" }
+    }
+    #swagger.responses[400] = {
+        schema: { error: "rateId need to have a value" }
+    }
+    #swagger.responses[500] = {
+        schema: { error: "message error" }
+    }
+*/
+
     const { id } = req.params;
     const { rateId } = req.body;
 
@@ -131,12 +250,32 @@ const addRateToModule = async (req, res) => {
 
         res.status(200).json({ message: "Module updated !" });
     } catch (err) {
-        res.status(400).json({ error : err.message });
+        res.status(500).json({ error : err.message });
     }
 }
 
-// remove rate to module
 const removeRateToModule = async (req, res) => {
+/*
+    #swagger.tags=['Module']
+    #swagger.description= "Remove a rate from a module by id"
+    #swagger.parameters['body'] = {
+        in: 'body',
+        description: '',
+        required: true,
+        schema: { $rateId: "rateId"
+        }   
+    }
+    #swagger.responses[200] = {
+        schema: { message: "Module updated !" }
+    }
+    #swagger.responses[400] = {
+        schema: { error: "rateId need to have a value" }
+    }
+    #swagger.responses[500] = {
+        schema: { error: "message error" }
+    }
+*/
+
     const { id } = req.params;
     const { rateId } = req.body;
 
@@ -152,7 +291,7 @@ const removeRateToModule = async (req, res) => {
 
         res.status(200).json({ message: "Module updated !" });
     } catch (err) {
-        res.status(400).json({ error : err.message });
+        res.status(500).json({ error : err.message });
     }
 }
 

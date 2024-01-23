@@ -30,11 +30,16 @@
                 align-items: center;
                 margin-bottom: 15px;
                 font-weight: 300;
+                cursor: pointer;
 
                 &::before {
                     content: "►";
                     font-size: 10px;
                     color: black;    
+                }
+
+                &.current {
+                    font-weight: 400;
                 }
             }
         }

@@ -1,7 +1,20 @@
 const Account = require('../models/accountModel');
 
-// get account infos
+
 const getAccount = async (req, res) => {
+/*
+    #swagger.tags=['Account']
+    #swagger.description= "Get account infos by id"
+    #swagger.responses[200] = {
+        schema: { $ref: '#/definitions/account' }
+    }
+    #swagger.responses[404] = {
+        schema: { error: "Account not found" }
+    }
+    #swagger.responses[500] = {
+        schema: { error: "message error" }
+    }
+*/
     const { id } = req.params;
 
     try {
@@ -15,12 +28,27 @@ const getAccount = async (req, res) => {
         }
         res.status(200).json(user);
     } catch (err) {
-        return res.status(400).json({ error : err.message });
+        return res.status(500).json({ error : err.message });
     }
 }
 
-// create new account
 const createAccount = async (req, res) => {
+    /*
+    #swagger.tags=['Account']
+    #swagger.description= "Create new account"
+    #swagger.parameters['body'] = {
+        in: 'body',
+        description: '',
+        required: true,
+        schema: { $ref: '#/definitions/newAccount' }
+    }
+    #swagger.responses[201] = {
+        schema: { $ref: '#/definitions/account' }
+    }
+    #swagger.responses[500] = {
+        schema: { error: "message error" }
+    }
+    */
     const { pseudo, email, password, expert } = req.body;
     const userExist =  await Account.findOne({ email: email, deletedAt: null });
 
@@ -54,13 +82,26 @@ const createAccount = async (req, res) => {
             }
         }); 
     } catch (err) {
-        return res.status(400).send({ message : "Failed to add user : " + err.message });
+        return res.status(500).send({ message : "Failed to add user : " + err.message });
 
     }
 }
 
-// delete a workout
 const deleteAccount = async (req, res) => {
+/*
+    #swagger.tags=['Account']
+    #swagger.description= "Delete an account"
+    #swagger.responses[200] = {
+        schema: {
+            message: "User deleted !"
+        }
+    }
+    #swagger.responses[500] = {
+        schema: {
+            error: "message error"
+        }
+    }
+*/
     const { id } = req.params;
     try {
         const user = await Account.findOneAndUpdate(
@@ -69,19 +110,33 @@ const deleteAccount = async (req, res) => {
         );
         res.status(200).json({ message: "User deleted !" });
     } catch (err) {
-        res.status(400).json({ error : err.message });
+        res.status(500).json({ error : err.message });
     }
 }
 
-// update a workout
 const updateAccount = async (req, res) => {
+/*
+    #swagger.tags=['Account']
+    #swagger.description= "Update an account by id"
+    #swagger.parameters['body'] = {
+        in: 'body',
+        description: '',
+        required: true,
+        schema: { $ref: '#/definitions/updateAccount' }
+    }
+    #swagger.responses[200] = {
+        schema: { message: "User updated !" }
+    }
+    #swagger.responses[500] = {
+        schema: { error: "message error" }
+    }
+*/
     const { id } = req.params;
-    const { pseudo, admin, lessonEnded, lessonInProgress, expert } = req.body;
+    const { pseudo, lessonEnded, lessonInProgress, expert } = req.body;
 
     try {
         const user = await Account.findOneAndUpdate({ _id: id, deletedAt: null }, {
             pseudo: pseudo,
-            admin: admin,
             lessonEnded: lessonEnded,
             lessonInProgress: lessonInProgress,
             expert: expert
@@ -89,12 +144,32 @@ const updateAccount = async (req, res) => {
 
         res.status(200).json({ message: "User updated !" });
     } catch (err) {
-        res.status(400).json({ error : err.message });
+        res.status(500).json({ error : err.message });
     }
 }
 
-// update password
 const updatePassword = async (req, res) => {
+/*
+    #swagger.tags=['Account']
+    #swagger.description= "Update the password of an account"
+    #swagger.parameters['body'] = {
+        in: 'body',
+        description: '',
+        required: true,
+        schema: { $ref: '#/definitions/updatePassword' }
+    }
+    #swagger.responses[200] = {
+        schema: {
+            message: "Password changed !"
+        }
+    }
+    #swagger.responses[500] = {
+        schema: {
+            error: "message error"
+        }
+    }
+*/
+
     const { id } = req.params;
     const user = await Account.findOne(
         { _id: id, deletedAt: null }
@@ -112,12 +187,13 @@ const updatePassword = async (req, res) => {
         user.save();
         res.status(200).json({ message: "Password changed !" });
     } catch (err) {
-        res.status(400).json({ error : err.message });
+        res.status(500).json({ error : err.message });
     }
 }
 
-// test password
 const testPassword = async (req, res) => {
+    // #swagger.ignore = true
+
     const { id } = req.params;
     const user = await Account.findOne(
         { _id: id, deletedAt: null },
@@ -128,12 +204,33 @@ const testPassword = async (req, res) => {
         let passwordIsOk = user.validPassword(password);
         res.status(200).json({ passwordIsOk: passwordIsOk });
     } catch (err) {
-        res.status(400).json({ error : err.message });
+        res.status(500).json({ error : err.message });
     }
 }
 
-// test password
 const loginAccount = async (req, res) => {
+/*
+    #swagger.tags=['Account']
+    #swagger.description= "Login to an account"
+    #swagger.parameters['body'] = {
+        in: 'body',
+        description: '',
+        required: true,
+        schema: { $ref: '#/definitions/login' }
+    }
+    #swagger.responses[200] = {
+        schema: { $ref: '#/definitions/account' }
+    }
+    #swagger.responses[500] = {
+        schema: { error: "message error" }
+    }
+    #swagger.responses[404] = {
+        schema: { error: "Aucun compte lié à cet email n'a été trouvé !" }
+    }
+    #swagger.responses[403] = {
+        schema: { error: "Mot de passe incorrect !" }
+    }
+*/
     const { email, password } = req.body;
     
     try {
@@ -163,7 +260,7 @@ const loginAccount = async (req, res) => {
             }
         });
     } catch (err) {
-        res.status(400).json({ error : err.message });
+        res.status(500).json({ error : err.message });
     }
 }
 

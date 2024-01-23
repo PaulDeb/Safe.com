@@ -16,7 +16,6 @@ const Header = () => {
                     <img src={accountIcon} className="header-account-img" alt="account"/>
                 </div>
             </header>
-
             <Outlet />
         </>
     );

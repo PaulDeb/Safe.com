@@ -3,6 +3,8 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const swaggerUI = require('swagger-ui-express');
+const swaggerDocument = require('./docs/swagger.json');
 const accountRoutes = require('./routes/accounts');
 const moduleRoutes = require('./routes/modules');
 const rateRoutes = require('./routes/rates');
@@ -24,6 +26,7 @@ app.use('/api/account', accountRoutes);
 app.use('/api/module', moduleRoutes);
 app.use('/api/rate', rateRoutes);
 app.use('/api/lesson', lessonRoutes);
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
 // connect to DB
 mongoose.connect(process.env.MONGODB_URI).then(() => {

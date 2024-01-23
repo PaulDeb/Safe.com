@@ -1,0 +1,1769 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "2.0.0",
+    "title": "REST API",
+    "description": "API of the Safe.com App",
+    "contact": null
+  },
+  "host": "localhost:4000",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "Account",
+      "description": "This route manage all the accounts like : login, register, delete"
+    },
+    {
+      "name": "Module",
+      "description": "This route manage all modules objects from creation until delete"
+    },
+    {
+      "name": "Rating",
+      "description": "This route manage all ratings of modules from creation until delete"
+    },
+    {
+      "name": "Lesson",
+      "description": "This route manage all lessons of modules from creation until delete"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "securityDefinitions": {},
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/account/{id}": {
+      "get": {
+        "tags": [
+          "Account"
+        ],
+        "description": "Get account infos by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/account"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Account not found"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "message error"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Account"
+        ],
+        "description": "Delete an account",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "User deleted !"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "message error"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Account"
+        ],
+        "description": "Update an account by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/updateAccount"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "User updated !"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "message error"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/account/register": {
+      "post": {
+        "tags": [
+          "Account"
+        ],
+        "description": "Create new account",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/newAccount"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/account"
+            }
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "message error"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/account/{id}/password": {
+      "patch": {
+        "tags": [
+          "Account"
+        ],
+        "description": "Update the password of an account",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/updatePassword"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Password changed !"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "message error"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/account/login": {
+      "post": {
+        "tags": [
+          "Account"
+        ],
+        "description": "Login to an account",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/login"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/account"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Mot de passe incorrect !"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Aucun compte lié à cet email n'a été trouvé !"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "message error"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/module/": {
+      "get": {
+        "tags": [
+          "Module"
+        ],
+        "description": "Get the list of the modules",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/module"
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "message error"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Module"
+        ],
+        "description": "Create new module",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/newModule"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/module"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "message error"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/module/{id}": {
+      "get": {
+        "tags": [
+          "Module"
+        ],
+        "description": "Get module by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/module"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Module not found"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "message error"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Module"
+        ],
+        "description": "Delete a module by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Module deleted !"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "message error"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Module"
+        ],
+        "description": "Update a module by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/updateModule"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/module"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "message error"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/module/{id}/lesson": {
+      "post": {
+        "tags": [
+          "Module"
+        ],
+        "description": "Add a lesson to a module by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "lessonId": {
+                  "type": "string",
+                  "example": "lessonId"
+                }
+              },
+              "required": [
+                "lessonId"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Module updated !"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "lessonId need to have a value"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "message error"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Module"
+        ],
+        "description": "Remove a lesson from a module by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "lessonId": {
+                  "type": "string",
+                  "example": "lessonId"
+                }
+              },
+              "required": [
+                "lessonId"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Module updated !"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "lessonId need to have a value"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "message error"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/module/{id}/rate": {
+      "post": {
+        "tags": [
+          "Module"
+        ],
+        "description": "Add a rate to a module by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "rateId": {
+                  "type": "string",
+                  "example": "rateId"
+                }
+              },
+              "required": [
+                "rateId"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Module updated !"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "rateId need to have a value"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "message error"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Module"
+        ],
+        "description": "Remove a rate from a module by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "rateId": {
+                  "type": "string",
+                  "example": "rateId"
+                }
+              },
+              "required": [
+                "rateId"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Module updated !"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "rateId need to have a value"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "message error"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/rate/": {
+      "get": {
+        "tags": [
+          "Rating"
+        ],
+        "description": "Get list of all rates",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/rate"
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "message error"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Rating"
+        ],
+        "description": "Create rate",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/newRate"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/rate"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "message error"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/rate/{id}": {
+      "get": {
+        "tags": [
+          "Rating"
+        ],
+        "description": "Get rate by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/rate"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Rate not found"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "message error"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Rating"
+        ],
+        "description": "Delete rate by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Rate deleted !"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "message error"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            },
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/lesson/": {
+      "get": {
+        "tags": [
+          "Lesson"
+        ],
+        "description": "Get list of all lessons",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/lesson"
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "message error"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Lesson"
+        ],
+        "description": "Create a lesson",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/newLesson"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/lesson"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "message error"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/lesson/{id}": {
+      "get": {
+        "tags": [
+          "Lesson"
+        ],
+        "description": "Get lesson by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/lesson"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Lesson not found"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "message error"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Lesson"
+        ],
+        "description": "Delete a lesson by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Lesson deleted !"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "message error"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Lesson"
+        ],
+        "description": "Update a lesson by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/updateLesson"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/lesson"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "message error"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "account": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "example": "accountId"
+        },
+        "pseudo": {
+          "type": "string",
+          "example": "JDoe"
+        },
+        "admin": {
+          "type": "boolean",
+          "example": false
+        },
+        "expert": {
+          "type": "boolean",
+          "example": false
+        },
+        "email": {
+          "type": "string",
+          "example": "jhon.doe@solutec.fr"
+        },
+        "lessonInProgess": {
+          "type": "array",
+          "example": [
+            "lessonID"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "lessonEnded": {
+          "type": "array",
+          "example": [
+            "lessonID",
+            "lessonID"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "createdAt": {
+          "type": "string",
+          "example": "2024-01-16T10:57:57.604Z"
+        },
+        "updatedAt": {
+          "type": "string",
+          "example": "2024-01-16T10:57:57.604Z"
+        },
+        "deleteAt": {
+          "type": "string",
+          "example": "2024-01-16T10:57:57.604Z"
+        }
+      }
+    },
+    "newAccount": {
+      "type": "object",
+      "properties": {
+        "pseudo": {
+          "type": "string",
+          "example": "JDoe"
+        },
+        "email": {
+          "type": "string",
+          "example": "jhon.doe@solutec.fr"
+        },
+        "password": {
+          "type": "string",
+          "example": "JDo3!#"
+        },
+        "expert": {
+          "type": "boolean",
+          "example": false
+        }
+      },
+      "required": [
+        "pseudo",
+        "email",
+        "password",
+        "expert"
+      ]
+    },
+    "updateAccount": {
+      "type": "object",
+      "properties": {
+        "pseudo": {
+          "type": "string",
+          "example": "JDoe"
+        },
+        "expert": {
+          "type": "boolean",
+          "example": false
+        },
+        "lessonInProgress": {
+          "type": "array",
+          "example": [
+            "lessonId"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "lessonEnded": {
+          "type": "array",
+          "example": [
+            "lessonId",
+            "lessonId"
+          ],
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "updatePassword": {
+      "type": "object",
+      "properties": {
+        "password": {
+          "type": "string",
+          "example": "JDo3!#"
+        },
+        "newPassword": {
+          "type": "string",
+          "example": "NewJDo3!#"
+        }
+      },
+      "required": [
+        "password",
+        "newPassword"
+      ]
+    },
+    "login": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "example": "jhon.doe@solutec.fr"
+        },
+        "password": {
+          "type": "string",
+          "example": "JDo3!#"
+        }
+      },
+      "required": [
+        "email",
+        "password"
+      ]
+    },
+    "lesson": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "example": "lessonId"
+        },
+        "title": {
+          "type": "string",
+          "example": "lessonName"
+        },
+        "expert": {
+          "type": "boolean",
+          "example": false
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "example": "quiz"
+              },
+              "question": {
+                "type": "string",
+                "example": "do you know the way ?"
+              },
+              "answers": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "text": {
+                      "type": "string",
+                      "example": "Response b"
+                    },
+                    "correct": {
+                      "type": "boolean",
+                      "example": true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "createdAt": {
+          "type": "string",
+          "example": "2024-01-16T10:57:57.604Z"
+        },
+        "updatedAt": {
+          "type": "string",
+          "example": "2024-01-16T10:57:57.604Z"
+        },
+        "deleteAt": {
+          "type": "string",
+          "example": "2024-01-16T10:57:57.604Z"
+        }
+      }
+    },
+    "newLesson": {
+      "type": "object",
+      "properties": {
+        "expert": {
+          "type": "boolean",
+          "example": false
+        },
+        "title": {
+          "type": "string",
+          "example": "grammaire"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "example": "quiz"
+              },
+              "question": {
+                "type": "string",
+                "example": "do you know the way ?"
+              },
+              "answers": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "text": {
+                      "type": "string",
+                      "example": "Response b"
+                    },
+                    "correct": {
+                      "type": "boolean",
+                      "example": true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "required": [
+        "expert",
+        "title",
+        "data"
+      ]
+    },
+    "updateLesson": {
+      "type": "object",
+      "properties": {
+        "expert": {
+          "type": "boolean",
+          "example": false
+        },
+        "title": {
+          "type": "string",
+          "example": "grammaire"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "example": "quiz"
+              },
+              "question": {
+                "type": "string",
+                "example": "do you know the way ?"
+              },
+              "answers": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "text": {
+                      "type": "string",
+                      "example": "Response b"
+                    },
+                    "correct": {
+                      "type": "boolean",
+                      "example": true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "module": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "example": "moduleId"
+        },
+        "name": {
+          "type": "string",
+          "example": "ModuleName"
+        },
+        "lessons": {
+          "type": "array",
+          "example": [
+            "lessonId",
+            "lessonId",
+            "lessonId",
+            "lessonId"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "expert": {
+          "type": "boolean",
+          "example": false
+        },
+        "rates": {
+          "type": "array",
+          "example": [
+            "rateId",
+            "rateId"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "difficulty": {
+          "type": "number",
+          "example": 3
+        },
+        "createdAt": {
+          "type": "string",
+          "example": "2024-01-16T10:57:57.604Z"
+        },
+        "updatedAt": {
+          "type": "string",
+          "example": "2024-01-16T10:57:57.604Z"
+        },
+        "deletedAt": {}
+      }
+    },
+    "newModule": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "ModuleName"
+        },
+        "expert": {
+          "type": "boolean",
+          "example": false
+        },
+        "difficulty": {
+          "type": "number",
+          "example": 5
+        }
+      },
+      "required": [
+        "name",
+        "expert",
+        "difficulty"
+      ]
+    },
+    "updateModule": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "NewModuleName"
+        },
+        "expert": {
+          "type": "boolean",
+          "example": false
+        },
+        "difficulty": {
+          "type": "number",
+          "example": 3
+        }
+      }
+    },
+    "rate": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "example": "rateId"
+        },
+        "text": {
+          "type": "string",
+          "example": "Opinion of the user"
+        },
+        "rate": {
+          "type": "number",
+          "example": 3
+        },
+        "creator": {
+          "type": "string",
+          "example": "accountId"
+        },
+        "createdAt": {
+          "type": "string",
+          "example": "2024-01-16T10:57:57.604Z"
+        },
+        "updatedAt": {
+          "type": "string",
+          "example": "2024-01-16T10:57:57.604Z"
+        },
+        "deletedAt": {}
+      }
+    },
+    "newRate": {
+      "type": "object",
+      "properties": {
+        "text": {
+          "type": "string",
+          "example": "Opinion of user"
+        },
+        "rate": {
+          "type": "number",
+          "example": 3
+        },
+        "creator": {
+          "type": "string",
+          "example": "accountId"
+        }
+      },
+      "required": [
+        "text",
+        "rate",
+        "creator"
+      ]
+    }
+  }
+}

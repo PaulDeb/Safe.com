@@ -1,8 +1,11 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import "../scss/home.scss";
 
 const Home = () => {
+    const navigate = useNavigate();
+
     return (
         <div className="mainpage-content">
             <div className="titles-container">
@@ -15,8 +18,12 @@ const Home = () => {
                 </p>
             </div>
             <div className="buttons-container">
-                <button className="login-btn"> J'ai déja un compte </button>
-                <button className="register-btn"> Je m'inscris </button>
+                <button className="login-btn" onClick={() => navigate("/login")}>
+                    J'ai déja un compte
+                </button>
+                <button className="register-btn" onClick={() => navigate("/register")}>
+                    Je m'inscris
+                </button>
             </div>
         </div>
     );

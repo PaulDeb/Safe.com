@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import RegisterImage from "../assets/images/register.jpg";
 import { HttpPostRequest } from "../tools/HttpRequests";
@@ -9,14 +9,13 @@ import Switch from "./Switch";
 import "../scss/register.scss";
 
 const Register = () => {
+    const navigate = useNavigate();
     const { register, getValues, setFocus } = useForm();
     const [isConnected, setConnected] = useState(sessionStorage.getItem("connected"));
     const [isExpert, setExpert] = useState(false);
 
     const onSubmit = () => {
         const values = getValues();
-        console.log(values);
-        console.log(isExpert);
 
         if (values.password !== values.confPassword) {
             return NotificationManager.error("La confirmation du mot de passe n'est pas identique au mot de passe !");
@@ -58,7 +57,15 @@ const Register = () => {
     return(
         <div className="container-login">
             <div className="flex-container">
-                <div className="title">Inscription</div>
+                <div className="flex-button-container">
+                    <div
+                        className="title transparent-title"
+                        onClick={() => navigate('/login')}
+                    >
+                        Connexion
+                    </div>
+                    <div className="title">Inscription</div>
+                </div>
                 <form className="register-form">
                     <Switch
                         callback={(value) => setExpert(value)}

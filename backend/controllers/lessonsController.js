@@ -1,4 +1,5 @@
 const Lessons = require('../models/lessonsModel');
+const Modules = require('../models/modulesModel');
 
 const getLessons = async (req, res) => {
 /*
@@ -79,7 +80,7 @@ const createLesson = async (req, res) => {
 const deleteLesson = async (req, res) => {
 /*
     #swagger.tags=['Lesson']
-    #swagger.description= "Delete a lesson by id"
+    #swagger.description= "Delete a lesson by id and remove it from lesson"
     #swagger.responses[200] = {
         schema: { message: "Lesson deleted !" }
     }
@@ -93,6 +94,18 @@ const deleteLesson = async (req, res) => {
             { _id: id, deletedAt: null },
             { deletedAt: Date.now() }
         );
+
+        const module = await Modules.findOne({ 'lessons': {
+            $in: id
+        }});
+
+        let index = module.lessons.indexOf(id);
+
+        if(index !== -1) {
+            module.lessons.splice(index, 1);
+            module.save();
+        }
+
         res.status(200).json({ message: "Lesson deleted !" });
     } catch (err) {
         res.status(500).json({ error : err.message });

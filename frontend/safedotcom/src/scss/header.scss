@@ -7,30 +7,42 @@
     justify-content: space-between;
     border-bottom: solid 0.5px #6c6b6b4e;
 
-    .header-logo-container {
-        height: 30vh;
-        max-height: 60px;
-        
-        .header-logo {
-            max-height: 60px;
-            height: 30vh;
+    .flex-row {
+        display: flex;
+        flex-direction: row;
 
-            &:hover {
-                cursor: pointer;
+        .header-logo-container {
+            height: 30vh;
+            max-height: 60px;
+            
+            .header-logo {
+                max-height: 60px;
+                height: 30vh;
+                
+                &:hover {
+                    cursor: pointer;
+                }
             }
         }
-    }
-    
-    .header-account-container {
-        height: 30vh;
-        max-height: 60px;
         
-        .header-account-img {
+        .expert-indicator {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 20px;
+        }
+        
+        .header-account-container {
             height: 30vh;
             max-height: 60px;
-
-            &:hover {
-                cursor: pointer;
+            
+            .header-account-img {
+                height: 30vh;
+                max-height: 60px;
+                
+                &:hover {
+                    cursor: pointer;
+                }
             }
         }
     }

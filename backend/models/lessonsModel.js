@@ -10,8 +10,11 @@ const lessonsSchema = mongoose.Schema({
         required: true,
     },
     data: {
-        type: Array,
-        default: false,
+        type: Object,
+        default: {
+            editor: null,
+            quiz: []
+        },
     },
     deletedAt: {
         type: Date,

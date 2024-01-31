@@ -9,7 +9,7 @@ const {
 
 const router = express.Router();
 
-// GET lesson
+// GET lessons
 router.get('/', getLessons);
 
 // Get lesson

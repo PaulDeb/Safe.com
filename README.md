@@ -26,3 +26,15 @@ After changing of routes and completting the commentaries, before restart the ba
 
 ### Frontend
 No documentation available
+
+## How To Build and expose on internet
+
+1. On the safedotcom folder use the command : ```npm run build```
+
+2. Go to <i>backend</i> folder and use the command : ```npm run start``` (you only need to start the backend because it exposed the build folder of the frontend)
+
+3. In the Browser go to https://safe.loca.lt
+
+4. Enter the password (ip address of the host => https://loca.lt/mytunnelpassword )
+
+5. Enjoy the website !

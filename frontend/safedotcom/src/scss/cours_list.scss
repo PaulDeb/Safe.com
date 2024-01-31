@@ -1,0 +1,110 @@
+.cours-container {
+    height: calc(100vh - 91px - 50px);
+    padding: 25px 30px;
+    display: flex;
+    flex-direction: column;
+
+    .admin-buttons {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        height: 30px;
+
+        .icon-admin-plus {
+            font-size: 2rem;
+            color: #0A2FAD;
+            transition: all ease 0.5s;
+            cursor: pointer;
+            
+            &:hover {
+                color: #17C3B2;
+            }
+        }
+    }
+
+    .cours-list {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        .cours-link {
+            padding: 10px 20px;
+            border: 2px solid #17C3B2;
+            border-radius: 30px;
+            font-size: 2rem;
+            font-weight: 200;
+            overflow: hidden;
+            -webkit-box-shadow: 6px 6px 20px 0px rgba(0,0,0,0.2); 
+            box-shadow: 6px 6px 20px 0px rgba(0,0,0,0.2);
+
+            &:hover {
+                cursor: pointer;
+                -webkit-box-shadow: inset 6px 6px 20px 0px rgba(0,0,0,0.2); 
+                box-shadow: inset 6px 6px 20px 0px rgba(0,0,0,0.2);
+            }
+
+            &.ended {
+                opacity: 0.3;
+                border-color: grey;
+            }
+
+            &.in-progress {
+                border-color: orange;
+            }
+        }
+
+        .module-item-container {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
+
+            .remove-item {
+                font-size: 1.5rem;
+                color: #FE6D73;
+                margin-left: 20px;
+                padding: 10px 20px;
+                border: 2px solid #FE6D73;
+                border-radius: 30px;
+                font-size: 2rem;
+                font-weight: 200;
+                overflow: hidden;
+                -webkit-box-shadow: 6px 6px 20px 0px rgba(0,0,0,0.2); 
+                box-shadow: 6px 6px 20px 0px rgba(0,0,0,0.2);
+
+                &:hover {
+                    cursor: pointer;
+                    -webkit-box-shadow: inset 6px 6px 20px 0px rgba(0,0,0,0.2); 
+                    box-shadow: inset 6px 6px 20px 0px rgba(0,0,0,0.2);
+                }
+            }
+        }
+    }
+}
+
+.loading {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 91px);
+
+    .loading-icon {
+        font-size: 5rem;
+        margin-bottom: 10px;
+        color:#0A2FAD;
+        animation: rotation 1s linear infinite;
+    }
+}
+
+@keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}

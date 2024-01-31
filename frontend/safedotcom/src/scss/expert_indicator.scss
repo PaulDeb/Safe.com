@@ -1,0 +1,14 @@
+.mode {
+    width: fit-content;
+    height: fit-content;
+    padding: 10px 15px;
+    color: white;
+    border-radius: 20px;
+
+    &.expert {
+        background-color: #FE6D73;
+    }
+    &.debutant {
+        background-color: #17C3B2;
+    }
+}

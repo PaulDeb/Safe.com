@@ -592,6 +592,74 @@
         }
       }
     },
+    "/api/module/{id}/lessons": {
+      "get": {
+        "tags": [
+          "Module"
+        ],
+        "description": "Get list of lessons from module",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "module": {
+                  "$ref": "#/definitions/module"
+                },
+                "lessons": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/lesson"
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Module not found"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "message error"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/module/{id}/lesson": {
       "post": {
         "tags": [
@@ -1226,7 +1294,7 @@
         "tags": [
           "Lesson"
         ],
-        "description": "Delete a lesson by id",
+        "description": "Delete a lesson by id and remove it from lesson",
         "parameters": [
           {
             "name": "id",

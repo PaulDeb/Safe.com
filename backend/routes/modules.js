@@ -8,7 +8,8 @@ const {
     addLessonToModule,
     removeLessonToModule,
     addRateToModule,
-    removeRateToModule
+    removeRateToModule,
+    getLessons
 } = require('../controllers/modulesController');
 
 const router = express.Router();
@@ -18,6 +19,9 @@ router.get('/', getModules);
 
 // Get module
 router.get('/:id', getModule);
+
+// Get lessons from module
+router.get('/:id/lessons', getLessons)
 
 // POST a new module
 router.post('/', createModule);

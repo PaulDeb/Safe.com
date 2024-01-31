@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import LoginImage from "../assets/images/login.jpg";
 import { HttpPostRequest } from "../tools/HttpRequests";
@@ -8,6 +8,7 @@ import { NotificationManager } from 'react-notifications';
 import "../scss/login.scss";
 
 const Login = () => {
+    const navigate = useNavigate();
     const { register, getValues, setFocus } = useForm();
     const [isConnected, setConnected] = useState(sessionStorage.getItem("connected"));
 
@@ -52,7 +53,19 @@ const Login = () => {
     return(
         <div className="container-login">
             <div className="flex-container">
-                <div className="title">Connexion</div>
+            <div className="flex-button-container">
+                    <div
+                        className="title"
+                        >
+                        Connexion
+                    </div>
+                    <div
+                        className="title transparent-title"
+                        onClick={() => navigate('/register')}
+                    >
+                        Inscription
+                    </div>
+                </div>
                 <form className="login-form">
                     <label>Email</label>
                     <input

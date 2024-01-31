@@ -1,4 +1,6 @@
 const Modules = require('../models/modulesModel');
+const Lessons = require('../models/lessonsModel');
+const { default: mongoose } = require('mongoose');
 
 const getModules = async (req, res) => {
 /*
@@ -295,6 +297,49 @@ const removeRateToModule = async (req, res) => {
     }
 }
 
+const getLessons = async (req, res) => {
+/*
+    #swagger.tags=['Module']
+    #swagger.description= "Get list of lessons from module"
+    #swagger.responses[200] = {
+        schema: {
+            module: { $ref: '#/definitions/module' },
+            lessons: [{ $ref: '#/definitions/lesson' }]
+        }
+    }
+    #swagger.responses[404] = {
+        schema: { error: "Module not found" }
+    }
+    #swagger.responses[500] = {
+        schema: { error: "message error" }
+    }
+*/
+    const { id } = req.params;
+
+    try {
+        const module = await Modules.findOne({ _id: id, deletedAt: null });
+
+        if (!module) {
+            return res.status(404).json({ error : "Module not found" });
+        }
+
+        let lessons = await Lessons.find({ _id: {
+            $in: module.lessons.map((elem) => (new mongoose.Types.ObjectId(elem)))
+        }, deletedAt: null });
+
+        if (!lessons) {
+            lessons = [];
+        }
+
+        res.status(200).json({
+            module,
+            lessons
+        });
+    } catch (err) {
+        res.status(500).json({ error : err.message });
+    }
+}
+
 module.exports = {
     getModules,
     getModule,
@@ -304,5 +349,6 @@ module.exports = {
     addLessonToModule,
     removeLessonToModule,
     addRateToModule,
-    removeRateToModule
+    removeRateToModule,
+    getLessons
 };

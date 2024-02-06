@@ -216,87 +216,6 @@ const removeLessonToModule = async (req, res) => {
     }
 }
 
-const addRateToModule = async (req, res) => {
-/*
-    #swagger.tags=['Module']
-    #swagger.description= "Add a rate to a module by id"
-    #swagger.parameters['body'] = {
-        in: 'body',
-        description: '',
-        required: true,
-        schema: { $rateId: "rateId" }   
-    }
-    #swagger.responses[200] = {
-        schema: { message: "Module updated !" }
-    }
-    #swagger.responses[400] = {
-        schema: { error: "rateId need to have a value" }
-    }
-    #swagger.responses[500] = {
-        schema: { error: "message error" }
-    }
-*/
-
-    const { id } = req.params;
-    const { rateId } = req.body;
-
-    if (!rateId) {
-        return res.status(400).json({ error : "rateId need to have a value" });
-    } 
-
-    try {
-        const module = await Modules.findOne({ _id: id, deletedAt: null });
-
-        await module.addRate(rateId);
-        module.save()
-
-        res.status(200).json({ message: "Module updated !" });
-    } catch (err) {
-        res.status(500).json({ error : err.message });
-    }
-}
-
-const removeRateToModule = async (req, res) => {
-/*
-    #swagger.tags=['Module']
-    #swagger.description= "Remove a rate from a module by id"
-    #swagger.parameters['body'] = {
-        in: 'body',
-        description: '',
-        required: true,
-        schema: { $rateId: "rateId"
-        }   
-    }
-    #swagger.responses[200] = {
-        schema: { message: "Module updated !" }
-    }
-    #swagger.responses[400] = {
-        schema: { error: "rateId need to have a value" }
-    }
-    #swagger.responses[500] = {
-        schema: { error: "message error" }
-    }
-*/
-
-    const { id } = req.params;
-    const { rateId } = req.body;
-
-    if (!rateId) {
-        return res.status(400).json({ error : "rateId need to have a value" });
-    } 
-
-    try {
-        const module = await Modules.findOne({ _id: id, deletedAt: null });
-
-        await module.removeRate(rateId);
-        module.save()
-
-        res.status(200).json({ message: "Module updated !" });
-    } catch (err) {
-        res.status(500).json({ error : err.message });
-    }
-}
-
 const getLessons = async (req, res) => {
 /*
     #swagger.tags=['Module']
@@ -348,7 +267,5 @@ module.exports = {
     updateModule,
     addLessonToModule,
     removeLessonToModule,
-    addRateToModule,
-    removeRateToModule,
     getLessons
 };

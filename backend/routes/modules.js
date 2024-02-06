@@ -7,8 +7,6 @@ const {
     updateModule,
     addLessonToModule,
     removeLessonToModule,
-    addRateToModule,
-    removeRateToModule,
     getLessons
 } = require('../controllers/modulesController');
 
@@ -37,11 +35,5 @@ router.post('/:id/lesson', addLessonToModule);
 
 // DELETE new lesson in module
 router.delete('/:id/lesson', removeLessonToModule);
-
-// POST new lesson in module
-router.post('/:id/rate', addRateToModule);
-
-// DELETE new lesson in module
-router.delete('/:id/rate', removeRateToModule);
 
 module.exports = router;

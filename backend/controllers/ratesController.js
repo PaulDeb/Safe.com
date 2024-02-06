@@ -1,4 +1,5 @@
 const Rates = require('../models/ratesModel');
+const Lessons = require('../models/lessonsModel');
 
 const getRates = async (req, res) => {
 /*
@@ -67,12 +68,21 @@ const createRate = async (req, res) => {
     }
 */
 
-    const { text, rate, creator } = req.body;
+    const { text, rate, creator, lesson } = req.body;
 
     try {
         const newRate = await Rates.create({ text, rate, creator });
+        const updatedLesson = await Lessons.findOne({ _id: lesson });
+
+        if (!updatedLesson)
+            throw Error("Lesson not found");
+
+        updatedLesson.rates.push(newRate._id);
+        updatedLesson.save();
+
         res.status(201).json(newRate);
     } catch (err) {
+        console.log(err);
         res.status(500).json({ error: err.message });
     }
 

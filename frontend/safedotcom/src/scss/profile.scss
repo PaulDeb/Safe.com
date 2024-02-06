@@ -1,0 +1,114 @@
+.profile-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 30px 40px;
+
+    .profile-title {
+        font-size: 2rem;
+    }
+
+    .profile-form {
+        .profile-divider {
+            width: 100%;
+            border-bottom: solid 1px grey;
+            opacity: 0.2;
+            margin: 20px 0;
+        }
+
+        .profile-label {
+            font-size: 1.2rem;
+
+            &::after {
+                content: ' : ';
+            }
+        }
+
+        .profile-input {
+            width: 80%;
+            border: none !important;
+            outline: none !important;
+            box-shadow: none !important;
+            font-size: 1.2rem;
+            color: grey;
+            opacity: 0.6;
+        }
+
+        .profile-level-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .profile-submit {
+            float: right;
+            padding: 5px 10px;
+            border: 2px solid #227C9D;
+            border-radius: 30px;
+            font-size: 1.2rem;
+            font-weight: 200;
+            background-color: white;
+            overflow: hidden;
+            -webkit-box-shadow: 6px 6px 20px 0px rgba(0,0,0,0.2); 
+            box-shadow: 6px 6px 20px 0px rgba(0,0,0,0.2);
+            
+            &:hover {
+                cursor: pointer;
+                -webkit-box-shadow: inset 6px 6px 20px 0px rgba(0,0,0,0.2); 
+                box-shadow: inset 6px 6px 20px 0px rgba(0,0,0,0.2);
+            }
+        }
+    }
+
+    .profile-passwords {
+        display: flex;
+        flex-direction: column;
+        margin: 20px 0;
+
+        div {
+            display: flex;
+            flex-direction: row;
+            align-content: center;
+            margin-bottom: 30px;
+         
+            .profile-label {
+                font-size: 1.2rem;
+                
+                &::after {
+                    content: ' : ';
+                }
+            }
+
+            .profile-input {
+                margin-left: 10px;
+                border: none;
+                border-bottom: 1px solid grey;
+                outline: none !important;
+                box-shadow: none !important;
+                font-size: 1.2rem;
+                color: grey;
+                opacity: 0.6;
+            }
+        }
+
+        .profile-submit {
+            align-self: flex-end;
+            width: fit-content;
+            padding: 5px 10px;
+            border: 2px solid #227C9D;
+            border-radius: 30px;
+            font-size: 1.2rem;
+            font-weight: 200;
+            background-color: white;
+            overflow: hidden;
+            -webkit-box-shadow: 6px 6px 20px 0px rgba(0,0,0,0.2); 
+            box-shadow: 6px 6px 20px 0px rgba(0,0,0,0.2);
+            
+            &:hover {
+                cursor: pointer;
+                -webkit-box-shadow: inset 6px 6px 20px 0px rgba(0,0,0,0.2); 
+                box-shadow: inset 6px 6px 20px 0px rgba(0,0,0,0.2);
+            }
+        }
+    }
+}

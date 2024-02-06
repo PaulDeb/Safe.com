@@ -73,6 +73,7 @@ const doc = {
             id: "lessonId",
             title: "lessonName",
             expert: false,
+            rates: ["rateId", "rateId"],
             data: [{
                 type: "paragraph",
                 text: "Some text ..."
@@ -118,6 +119,7 @@ const doc = {
         updateLesson: {
             expert: false,
             title: "grammaire",
+            rates: ["rateId", "rateId"],
             data: [{
                 type: "paragraph",
                 text: "Some text ..."
@@ -141,7 +143,6 @@ const doc = {
             name: "ModuleName",
             lessons: ["lessonId", "lessonId", "lessonId", "lessonId"],
             expert: false,
-            rates: ["rateId", "rateId"],
             difficulty: 3,
             createdAt: "2024-01-16T10:57:57.604Z",
             updatedAt: "2024-01-16T10:57:57.604Z",
@@ -169,7 +170,8 @@ const doc = {
         newRate: {
             $text: "Opinion of user",
             $rate: 3,
-            $creator: "accountId"
+            $creator: "accountId",
+            $lesson: "lessonId"
         }
     },
 };

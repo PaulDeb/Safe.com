@@ -4,7 +4,8 @@ const {
     getLesson,
     createLesson,
     deleteLesson,
-    updateLesson
+    updateLesson,
+    getRates
 } = require('../controllers/lessonsController');
 
 const router = express.Router();
@@ -14,6 +15,9 @@ router.get('/', getLessons);
 
 // Get lesson
 router.get('/:id', getLesson);
+
+// Get lesson
+router.get('/:id/rates', getRates);
 
 // POST a new lesson
 router.post('/', createLesson);

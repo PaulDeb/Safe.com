@@ -2,13 +2,17 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Editor } from 'react-draft-wysiwyg';
 import { EditorState, convertFromRaw } from 'draft-js';
-import { HttpGetRequest, HttpPatchRequest } from "../../tools/HttpRequests";
+import { HttpGetRequest, HttpPatchRequest, HttpPostRequest } from "../../tools/HttpRequests";
 import { NotificationManager } from "react-notifications";
+import { Rating } from 'react-simple-star-rating';
 
 import { MdOutlineArrowBackIosNew } from "react-icons/md";
 import { FaCheck } from "react-icons/fa6";
 import { AiOutlineLoading } from "react-icons/ai";
 import { GrClose } from "react-icons/gr";
+
+import accountIconExpert from "../../assets/images/account_icon_expert.png";
+import accountIconDebutant from "../../assets/images/account_icon_debutant.png";
 
 
 import "../../scss/lesson_view.scss";
@@ -20,11 +24,22 @@ const LessonView = () => {
     const [quiz, setQuiz] = useState([]);
     const [quizAnswers, setQuizAnswers] = useState([]);
     const [validated, setValidated] = useState(false);
+    const [user, setUser] = useState({});
+    const [ratingStars, setRatingStars] = useState(3.5);
+    const [ratingText, setRatingText] = useState("");
+    const [rates, setRates] = useState([]);
     const params = useParams();
     const navigate = useNavigate();
+    let lessonId = params.lessonId;
 
     useEffect(() => {
         getLesson();
+        getRates();
+
+        let currentUser = sessionStorage.getItem('user');
+        currentUser = JSON.parse(currentUser);
+        setUser(currentUser);
+
     },[]);// eslint-disable-line
 
     const getLesson = () => {
@@ -54,6 +69,23 @@ const LessonView = () => {
         });
     };
 
+    const getRates = () => {
+        HttpGetRequest("/lesson/" + params.lessonId + "/rates")
+        .then((response) => {
+            if (!response.ok) {
+                throw response.status;
+            }
+            return response.json();
+        }).then(data => {
+            console.log(data);
+            setRates(data);
+        }).catch((error) => {
+            console.log(error);
+            NotificationManager.error("Une erreur est survenue lors de la récupération des données!");
+            setLoading(false);
+        });
+    };
+
     const resetAnswers = (newQuizAnswers) => {
         newQuizAnswers.forEach(item => {
             item.answers.forEach(answer => {
@@ -72,6 +104,34 @@ const LessonView = () => {
         setQuizAnswers(updatedQuizAnswers);
     };
 
+    const onClickFollow = () => {
+        let currentUser = {...user};
+        currentUser.lessonInProgress.push(lessonId);
+        updateAccount(currentUser);
+    };
+
+    const onSumbitRating = () => {
+        HttpPostRequest("/rate/", {
+            text: ratingText,
+            rate: ratingStars,
+            creator: user.id,
+            lesson: lessonId
+        })
+        .then((response) => {
+            if (!response.ok) {
+                throw response.status;
+            }
+            return response.json();
+        }).then((data) => {
+            console.log(data);
+            NotificationManager.success("Merci d'avoir posté votre avis !");
+        }).catch((error) => {
+            console.log(error);
+            NotificationManager.error("Une erreur est survenue lors de la mise à jours du compte !");
+            setLoading(false);
+        });
+    };
+
     const onValidate = () => {
         if (!!validated) {
             resetAnswers(JSON.parse(JSON.stringify(quiz)));
@@ -88,15 +148,8 @@ const LessonView = () => {
         })
 
         if (!error) {
-            let user = sessionStorage.getItem('user');
             let lessonId = params.lessonId;
             let index = -1;
-
-            if (!user) {
-                NotificationManager.error("Erreur lors de la mise a jour de l'utilisateur.");
-                return;
-            }
-            user = JSON.parse(user);
 
             if (user.lessonEnded.includes(lessonId)){
                 setValidated(!validated);
@@ -126,13 +179,14 @@ const LessonView = () => {
             }
             return response.json();
         }).then((_) => {
-            sessionStorage.setItem('user', JSON.stringify(user))
+            sessionStorage.setItem('user', JSON.stringify(user));
+            setUser(user);
         }).catch((error) => {
             console.log(error);
             NotificationManager.error("Une erreur est survenue lors de la mise à jours du compte !");
             setLoading(false);
         });
-    }
+    };
 
     const getIconValidate = (currentValue, goodResponse) => {
         if (!!currentValue && !!goodResponse) {
@@ -181,7 +235,7 @@ const LessonView = () => {
         }
 
         return false;
-    }
+    };
 
     const displayQuiz = (item, index) => (
         <div key={index} className="quiz-container">
@@ -211,6 +265,8 @@ const LessonView = () => {
         )
     }
 
+    const userFollowingLesson = (user.lessonEnded.includes(lessonId) || user.lessonInProgress.includes(lessonId));
+
     return (
         <div className="lesson-view-container">
             <div className="lesson-view-toolbar">
@@ -222,23 +278,105 @@ const LessonView = () => {
             <div className="lesson-view-title">
                 {lesson?.title}
             </div>
-            <div className="lesson-view-content">
-                <Editor
-                    editorState={editor}
-                    readOnly
-                    toolbarHidden
-                />
-            </div>
-            <div className="lesson-view-quiz">
-                {(quiz.map(displayQuiz))}
-                <div className="quiz-btn-container">
-                
-                    <div
-                        className="valid-quiz"
-                        onClick={onValidate}
-                    >
-                        {(!!validated) ? "Recommencer" : "Validate"}
+            {(userFollowingLesson) ? (
+                <div className="lesson-view-content">
+                    <Editor
+                        editorState={editor}
+                        readOnly
+                        toolbarHidden
+                    />
+                </div>
+            ) : (
+                <>
+                    <div className="lesson-view-content locked">
+                        <Editor
+                            editorState={editor}
+                            readOnly
+                            toolbarHidden
+                            />
                     </div>
+                    <div className="lesson-view-start" onClick={onClickFollow}>
+                        Commencer le cours
+                    </div>
+                </>
+            )}
+            {(userFollowingLesson) ? (
+                <div className="lesson-view-quiz">
+                    {(quiz.map(displayQuiz))}
+                    <div className="quiz-btn-container">
+                    
+                        <div
+                            className="valid-quiz"
+                            onClick={onValidate}
+                        >
+                            {(!!validated) ? "Recommencer" : "Validate"}
+                        </div>
+                    </div>
+                </div>
+            ) : null}
+            <div className="rating-container">
+                {(userFollowingLesson) ? (
+                    <>
+                        <div className="rating-title">
+                            Avez vous apprécié ce cours ?
+                        </div>
+                        <div className="rating-form">
+                            <div className="rating-stars-container">
+                                <div className="rating-label">
+                                    Laissez nous votre avis :
+                                </div>
+                                <Rating
+                                    className="rating-stars"
+                                    onClick={setRatingStars}
+                                    value={ratingStars}
+                                    allowFraction
+                                />
+                            </div>
+                            <textarea
+                                className="rating-text"
+                                maxLength={300}
+                                onChange={(e) => setRatingText(e.target.value)}
+                                value={ratingText}
+                            />
+                            <div className="rating-submit" onClick={onSumbitRating}>
+                                Envoyer
+                            </div>
+                        </div>
+                    </>
+                ) : null}
+
+                <div className="ratings-list">
+                    {rates.map((rate, index) => (
+                        <div key={"rate-" + index} className="rate-item">
+                            <div className="rate-header">
+                                <div className="rate-account">
+                                    {(!!rate.creator.expert) ? (
+                                        <img
+                                        src={accountIconExpert}
+                                        alt="account-icon"
+                                        className="rate-icon"
+                                        />
+                                        ) : (
+                                            <img
+                                            src={accountIconDebutant}
+                                            alt="account-icon"
+                                            className="rate-icon"
+                                            />
+                                            )}
+                                    <div className="rate-name">{rate.creator.pseudo}</div>
+                                </div>
+                                <Rating 
+                                    readonly
+                                    className="rating-value"
+                                    initialValue={rate.rate}
+                                    allowFraction
+                                />
+                            </div>
+                            <div className="rate-msg">
+                                {rate.text}
+                            </div>
+                        </div>
+                    ))}
                 </div>
             </div>
         </div>

@@ -10,7 +10,6 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import Account from "./components/Account";
 import Profile from "./components/account/Profile";
-import Cours from "./components/account/Cours";
 import About from "./components/account/About";
 import Progression from "./components/Progression";
 import CoursList from "./components/cours/CoursList";
@@ -35,7 +34,6 @@ const App = () => {
 				<Route path="account/" element={<PrivateRoute element={<Account />} /> }>
 					<Route index element={<Profile/>}/>
 					<Route path="profile" element={<Profile/>}/>
-					<Route path="cours" element={<Cours/>}/>
 					<Route path="about" element={<About/>}/>
 				</Route>
 				<Route path="progression" element={<PrivateRoute element={<Progression/>} /> } />

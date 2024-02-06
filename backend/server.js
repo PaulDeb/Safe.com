@@ -1,6 +1,7 @@
 require('dotenv').config();
 
-// const localtunnel = require("localtunnel");
+//uncomment to use tunnel
+const localtunnel = require("localtunnel");
 const path = require("path");
 const express = require('express');
 const cors = require('cors');
@@ -32,10 +33,11 @@ app.use('/api/rate', rateRoutes);
 app.use('/api/lesson', lessonRoutes);
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
-// (async () => {
-//     const tunnel = await localtunnel({ port: process.env.PORT, subdomain: "safe" });
-//     console.log(tunnel.url);
-// })();
+//uncomment to use tunnel
+(async () => {
+    const tunnel = await localtunnel({ port: process.env.PORT, subdomain: "safe" });
+    console.log(tunnel.url);
+})();
 
 // connect to DB
 mongoose.connect(process.env.MONGODB_URI).then(() => {

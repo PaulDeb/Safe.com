@@ -4,6 +4,9 @@ Web Application to make cours on SAFe system with MERN stack
 ## How to install
 Go to backend and frontend/safedotcom folders and execute : ```npm install```
 
+For the back-end, you need to change the database, create a database on [MongoDB Atlas](https://account.mongodb.com/account/login) and put the DB connection string in backend/.env.
+Check on the website of MongoDB that your IP address is authorized.
+
 ## How to start ?
 
 ### Backend :

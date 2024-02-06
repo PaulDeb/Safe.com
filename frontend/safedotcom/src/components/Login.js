@@ -54,9 +54,7 @@ const Login = () => {
         <div className="container-login">
             <div className="flex-container">
             <div className="flex-button-container">
-                    <div
-                        className="title"
-                        >
+                    <div className="title">
                         Connexion
                     </div>
                     <div

@@ -2,7 +2,8 @@
     padding: 20px 30px;
     display: flex;
     flex-direction: column;
-    min-height: calc(100vh - 91px - 40px);
+    height: calc(100vh - 91px - 40px);
+    overflow-y: scroll;
 
     .toolbar {
         display: flex;
@@ -52,7 +53,6 @@
     .editor-class {
         background-color: #0A2FAD0D;
         min-height: 500px;
-        margin-bottom: 20px;
     }
 
     .quiz-container {
@@ -60,6 +60,7 @@
         flex-direction: column;
         flex: 1;
         align-items: center;
+        margin-top: 70px;
 
         .quiz-title {
             width: 100%;

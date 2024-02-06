@@ -16,6 +16,11 @@ const lessonsSchema = mongoose.Schema({
             quiz: []
         },
     },
+    rates: {
+        type: Array,
+        required: true,
+        default: []
+    },
     deletedAt: {
         type: Date,
         default: null,

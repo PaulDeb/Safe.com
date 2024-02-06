@@ -1,5 +1,8 @@
 const Lessons = require('../models/lessonsModel');
 const Modules = require('../models/modulesModel');
+const Rates = require('../models/ratesModel');
+const Accounts = require('../models/accountModel');
+const { default: mongoose } = require('mongoose');
 
 const getLessons = async (req, res) => {
 /*
@@ -147,10 +150,59 @@ const updateLesson = async (req, res) => {
     }
 }
 
+const getRates = async (req, res) => {
+/*
+    #swagger.tags=['Lesson']
+    #swagger.description= "Return all the rates objects of the lesson"
+    #swagger.responses[200] = {
+        schema: [{ $ref: '#/definitions/rate' }]
+    }
+    #swagger.responses[500] = {
+        schema: { error: "message error" }
+    }
+*/
+    const { id } = req.params;
+
+    try {
+        const lesson = await Lessons.findOne({ _id: id, deletedAt: null });
+        
+        if (!lesson) {
+            return res.status(404).json("Lesson not found !");
+        }
+
+        const rates = await Rates.find({ _id: {
+            $in: lesson.rates.map((elem) => (new mongoose.Types.ObjectId(elem)))
+        }, deletedAt: null });
+
+
+        let ratesWithAccount = [];
+
+        for (let rate of rates) {
+            const creator = await Accounts.findOne({ _id: rate.creator });
+            ratesWithAccount.push({
+                _id: rate._id,
+                rate: rate.rate,
+                text: rate.text,
+                createdAt: rate.createdAt,
+                updatedAt: rate.updatedAt,
+                creator: {
+                    pseudo: creator.pseudo,
+                    expert: creator.expert
+                }
+            });
+        }
+
+        res.status(200).json(ratesWithAccount);
+    } catch (err) {
+        res.status(500).json({ error : err.message });
+    }
+}
+
 module.exports = {
     getLessons,
     getLesson,
     createLesson,
     deleteLesson,
-    updateLesson
+    updateLesson,
+    getRates
 };

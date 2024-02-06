@@ -1,5 +1,6 @@
 .lesson-view-container {
     height: calc(100vh - 91px);
+    overflow-y: scroll;
     
     .lesson-view-toolbar {
         height: 30px;
@@ -33,6 +34,44 @@
 
     .lesson-view-content {
         padding: 20px 30px;
+
+        &.locked {
+            height: 200px;   
+            overflow-y: hidden;
+
+            &::before {
+                content:'';
+                width: 100%;
+                height: 250px;
+                position: absolute;
+                left: 0;
+                z-index: 1000;
+                background:linear-gradient(transparent 10px, white 75%);
+            }
+        }
+    }
+
+    .lesson-view-start {
+        position: relative;
+        top: -100px;
+        z-index: 1000000;
+        width: fit-content;
+        padding: 10px 20px;
+        border: 2px solid #227C9D;
+        border-radius: 30px;
+        font-size: 2rem;
+        font-weight: 200;
+        overflow: hidden;
+        -webkit-box-shadow: 6px 6px 20px 0px rgba(0,0,0,0.2); 
+        box-shadow: 6px 6px 20px 0px rgba(0,0,0,0.2);
+        background-color: white;
+        margin: auto;
+        
+        &:hover {
+            cursor: pointer;
+            -webkit-box-shadow: inset 6px 6px 20px 0px rgba(0,0,0,0.2); 
+            box-shadow: inset 6px 6px 20px 0px rgba(0,0,0,0.2);
+        }
     }
 
     .lesson-view-quiz {
@@ -107,6 +146,128 @@
                     cursor: pointer;
                     -webkit-box-shadow: inset 6px 6px 20px 0px rgba(0,0,0,0.2); 
                     box-shadow: inset 6px 6px 20px 0px rgba(0,0,0,0.2);
+                }
+            }
+        }
+    }
+
+    .rating-container {
+        display: flex;
+        // display: none;
+        width: 50vw;
+        margin: auto;
+        flex-direction: column;
+        justify-content: center;
+
+        .rating-title {
+            background-color: #0A2FAD;
+            color: white;
+            padding: 10px 15px;
+            font-weight: bold;
+            font-size: 1.4rem;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            width: fit-content;
+            align-self: center;
+        }
+
+        .rating-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 50px;
+            border: solid 3px #0A2FAD;
+            border-radius: 20px;
+            padding: 20px 40px;
+            font-weight: 400;
+            -webkit-box-shadow: 6px 6px 20px 0px rgba(0,0,0,0.2); 
+            box-shadow: 6px 6px 20px 0px rgba(0,0,0,0.2);
+
+
+            .rating-stars-container {
+                margin-bottom: 10px;
+                width: 100%;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+
+                .rating-label {
+                    font-size: 1.2rem;
+                }
+
+                .rating-stars {
+                }
+            }
+
+            .rating-text {
+                width: 100%;
+                height: 200px;
+                margin-bottom: 20px;
+                resize: none;
+                border-radius: 25px;
+                border-color: transparent;
+                background-color: #0A2FAD0D;
+                padding: 10px;
+                outline: none !important;
+            }
+
+            .rating-submit {
+                padding: 10px 20px;
+                border: 2px solid #227C9D;
+                border-radius: 30px;
+                font-size: 1.5rem;
+                font-weight: 200;
+                overflow: hidden;
+                -webkit-box-shadow: 6px 6px 20px 0px rgba(0,0,0,0.2); 
+                box-shadow: 6px 6px 20px 0px rgba(0,0,0,0.2);
+                height: fit-content;
+                background-color: white;
+                
+                &:hover {
+                    cursor: pointer;
+                    -webkit-box-shadow: inset 6px 6px 20px 0px rgba(0,0,0,0.2); 
+                    box-shadow: inset 6px 6px 20px 0px rgba(0,0,0,0.2);
+                }
+            }
+        }
+
+        .ratings-list {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 50px;
+
+            .rate-item {
+                border: solid 2px #0A2FAD;
+                border-radius: 30px;
+                padding: 20px;
+                margin-bottom: 20px;
+
+                .rate-header {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-between;
+                    
+                    .rate-account {
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        
+                        .rate-icon {
+                            height: 30px;
+                            width: auto;
+                            margin-right: 10px;
+                        }
+
+                        .rate-name {
+                            font-weight: 500;
+                            font-size: 1.2rem;
+                        }
+                    }
+                }
+
+                .rate-msg {
+                    margin-top: 20px;
                 }
             }
         }

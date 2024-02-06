@@ -1,0 +1,42 @@
+.about-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 30px 40px;
+
+    .about-title {
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+        font-size: 1.4rem;
+    }
+
+    .about-paragraph {
+        margin-top: 20px;
+        font-size: 1.1rem;
+
+        .about-paragraph-title {
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            font-weight: 500;
+        }
+
+        .about-person {
+            margin-bottom: 10px;
+            font-size: 1.15rem;
+            font-weight: 500;
+        }
+
+        ul {
+            li {
+                margin-bottom: 5px;
+                u {
+                    text-decoration: none;
+                    font-weight: 500;
+                    &::after {
+                        content: " : ";
+                    }
+                }
+            }
+        }
+    }
+}

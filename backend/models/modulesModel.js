@@ -13,10 +13,6 @@ const modulesSchema = mongoose.Schema({
         type: Boolean,
         default: false,
     },
-    rates: {
-        type: Array,
-        required: true,
-    },
     difficulty: {
         type: Number,
         default: false,

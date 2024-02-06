@@ -37,7 +37,7 @@ const Account = () => {
                     </li>
                     <li
                         className={(subpage === 'cours') ? "current" : ""}
-                        onClick={() => navigate('/account/cours')}
+                        onClick={() => navigate('/cours')}
                     >
                         Cours
                     </li>

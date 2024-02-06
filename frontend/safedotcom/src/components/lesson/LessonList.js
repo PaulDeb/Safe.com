@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {
-    HttpGetRequest, HttpPostRequest, HttpPatchRequest,
-    HttpDeleteRequest
+    HttpGetRequest, HttpPostRequest,
+    HttpPatchRequest, HttpDeleteRequest
 } from "../../tools/HttpRequests";
 import { useParams, useNavigate } from "react-router-dom";
 import { NotificationManager } from "react-notifications";
@@ -22,18 +22,20 @@ const LessonList = () => {
     const [module, setModule] = useState(null);
     const [title, setTitle] = useState("");
     const [loading, setLoading] = useState(true);
+    const [user, setUser] = useState({});
 
     const newLesson = {
         expert: false,
         title: "Nouvelle Leçon",
         data: {}
     };
-    let user = sessionStorage.getItem("user");
-
-    user = JSON.parse(user);
 
     useEffect(() => {
         getLessonList();
+
+        let currentUser = sessionStorage.getItem("user");
+        setUser(JSON.parse(currentUser));
+
     },[]);// eslint-disable-line
 
     const getLessonList = () => {
@@ -44,6 +46,7 @@ const LessonList = () => {
             }
             return response.json();
         }).then(data => {
+            console.log(data.module.name);
             setLessons(data.lessons);
             setModule(data.module);
             setTitle(data.module.name);
@@ -109,22 +112,6 @@ const LessonList = () => {
         });
     }
 
-    const updateAccount = (user) => {
-        HttpPatchRequest("/account/" + user.id, user)
-        .then((response) => {
-            if (!response.ok) {
-                throw response.status;
-            }
-            return response.json();
-        }).then((_) => {
-            sessionStorage.setItem('user', JSON.stringify(user))
-        }).catch((error) => {
-            console.log(error);
-            NotificationManager.error("Une erreur est survenue lors de la mise à jours du compte !");
-            setLoading(false);
-        });
-    }
-
     const updateModule = () => {
         if (title === module.name) {
             return;
@@ -147,10 +134,6 @@ const LessonList = () => {
     }
 
     const selectLesson = (lesson) => {
-        if (!user.lessonInProgress.includes(lesson._id) && !user.lessonEnded.includes(lesson._id)) {
-            user.lessonInProgress.push(lesson._id);
-            updateAccount(user);
-        }
         navigate(lesson._id);
     }
 
@@ -180,6 +163,7 @@ const LessonList = () => {
             </div>
         )
     }
+
     return (
         <div className="lesson-list">
             <div className="lesson-toolbar">
@@ -207,7 +191,7 @@ const LessonList = () => {
                         onKeyDown={handleKeyDown}
                     />
                 ) : (
-                    {title}
+                    title
                 )}
             </div>
             <div className="lessons-list">

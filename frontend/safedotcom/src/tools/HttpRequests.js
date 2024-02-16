@@ -34,6 +34,7 @@ export async function HttpPostRequest(route, body) {
         return(response);
     } catch (error) {
         console.log(error);
+        console.log(error.message);
     }
 }
 

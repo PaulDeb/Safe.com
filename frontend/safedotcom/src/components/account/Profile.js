@@ -91,10 +91,12 @@ const Profile = () => {
 
                 <div className="profile-level-container">
                     <label className="profile-label">Mon niveau</label>
-                    <Switch
-                        callback={(value) => setUser({...user, expert: value})}
-                        value={user.expert}
-                    />
+                    <div className="profile-level-switch">
+                        <Switch
+                            callback={(value) => setUser({...user, expert: value})}
+                            value={user.expert}
+                            />
+                    </div>
                 </div>
 
                 <button

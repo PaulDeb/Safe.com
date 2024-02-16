@@ -36,8 +36,14 @@
 
         .profile-level-container {
             display: flex;
-            align-items: center;
+            flex-direction: row;
             margin-bottom: 20px;
+
+            .profile-level-switch {
+                display: flex;
+                flex-direction: row;
+                margin: 0 2em;
+            }
         }
 
         .profile-submit {

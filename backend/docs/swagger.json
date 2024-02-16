@@ -820,166 +820,6 @@
         }
       }
     },
-    "/api/module/{id}/rate": {
-      "post": {
-        "tags": [
-          "Module"
-        ],
-        "description": "Add a rate to a module by id",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "description": "",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "rateId": {
-                  "type": "string",
-                  "example": "rateId"
-                }
-              },
-              "required": [
-                "rateId"
-              ]
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string",
-                  "example": "Module updated !"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "error": {
-                  "type": "string",
-                  "example": "rateId need to have a value"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "error": {
-                  "type": "string",
-                  "example": "message error"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "Module"
-        ],
-        "description": "Remove a rate from a module by id",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "description": "",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "rateId": {
-                  "type": "string",
-                  "example": "rateId"
-                }
-              },
-              "required": [
-                "rateId"
-              ]
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string",
-                  "example": "Module updated !"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "error": {
-                  "type": "string",
-                  "example": "rateId need to have a value"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "error": {
-                  "type": "string",
-                  "example": "message error"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          }
-        }
-      }
-    },
     "/api/rate/": {
       "get": {
         "tags": [
@@ -1382,6 +1222,54 @@
           }
         }
       }
+    },
+    "/api/lesson/{id}/rates": {
+      "get": {
+        "tags": [
+          "Lesson"
+        ],
+        "description": "Return all the rates objects of the lesson",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/rate"
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "message error"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -1549,6 +1437,16 @@
           "type": "boolean",
           "example": false
         },
+        "rates": {
+          "type": "array",
+          "example": [
+            "rateId",
+            "rateId"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
         "data": {
           "type": "array",
           "items": {
@@ -1656,6 +1554,16 @@
           "type": "string",
           "example": "grammaire"
         },
+        "rates": {
+          "type": "array",
+          "example": [
+            "rateId",
+            "rateId"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
         "data": {
           "type": "array",
           "items": {
@@ -1716,16 +1624,6 @@
         "expert": {
           "type": "boolean",
           "example": false
-        },
-        "rates": {
-          "type": "array",
-          "example": [
-            "rateId",
-            "rateId"
-          ],
-          "items": {
-            "type": "string"
-          }
         },
         "difficulty": {
           "type": "number",
@@ -1825,12 +1723,17 @@
         "creator": {
           "type": "string",
           "example": "accountId"
+        },
+        "lesson": {
+          "type": "string",
+          "example": "lessonId"
         }
       },
       "required": [
         "text",
         "rate",
-        "creator"
+        "creator",
+        "lesson"
       ]
     }
   }

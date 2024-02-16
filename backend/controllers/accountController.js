@@ -83,7 +83,6 @@ const createAccount = async (req, res) => {
         }); 
     } catch (err) {
         return res.status(500).send({ message : "Failed to add user : " + err.message });
-
     }
 }
 

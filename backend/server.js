@@ -34,10 +34,10 @@ app.use('/api/lesson', lessonRoutes);
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
 //uncomment to use tunnel
-(async () => {
-    const tunnel = await localtunnel({ port: process.env.PORT, subdomain: "safe" });
-    console.log(tunnel.url);
-})();
+// (async () => {
+//     const tunnel = await localtunnel({ port: process.env.PORT, subdomain: "safe" });
+//     console.log(tunnel.url);
+// })();
 
 // connect to DB
 mongoose.connect(process.env.MONGODB_URI).then(() => {
